@@ -3,19 +3,18 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage {
-    WebDriver driver;
-    private final By loginInput = By.xpath("//input[@id='user-name']");
+public class LoginPage extends BasePage {
+    private final By loginInput = By.xpath(DATA_TEXT_PATTERN.formatted("username"));
     private final By passwordInput = By.xpath("//input[@id='password']");
     private final By submitButton = By.xpath("//input[@id='login-button']");
-    private final By error = By.xpath("//h3[@data-test='error']");
+    private final By error = By.xpath(DATA_TEXT_PATTERN.formatted("error"));
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void open() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(BASE_URL);
     }
 
     public void login(String login, String password) {

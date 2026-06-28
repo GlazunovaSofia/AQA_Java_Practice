@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -13,66 +14,25 @@ public class LoginTest extends BaseTest{
         assertEquals(productPage.getTitle(), "Products", "Заголовок страницы не соответствует");
     }
 
-    @Test
-    public void checkIncorrectLogin() {
-        loginPage.open();
-        loginPage.login("incorrrectLogin", "secret_sauce");
-
-        assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Username and password do not match any user in this service", "Сообщение об ошибке не соответствует");
+    @DataProvider(name = "incorrectLoginData")
+    public Object[][] loginData() {
+        return new Object[][] {
+                {"incorrrectLogin", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"standard_user", "", "Epic sadface: Password is required"},
+                {"standard_user", "incorrectPassword", "Epic sadface: Username and password do not match any user in this service"},
+                {"", "", "Epic sadface: Username is required"},
+                {"Standard_user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
+                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."}
+        };
     }
 
-    @Test
-    public void checkEmptyLogin() {
+    @Test(dataProvider = "incorrectLoginData", testName = "Авторизация под кредами: {0, 1}")
+    public void checkIncorrectLogin(String login, String password, String errorMessage) {
         loginPage.open();
-        loginPage.login("", "secret_sauce");
+        loginPage.login(login, password);
 
         assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Username is required", "Сообщение об ошибке не соответствует");
-    }
-
-    @Test
-    public void checkEmptyPassword() {
-        loginPage.open();
-        loginPage.login("standard_user", "");
-
-        assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Password is required", "Сообщение об ошибке не соответствует");
-    }
-
-    @Test
-    public void checkIncorrectPassword() {
-        loginPage.open();
-        loginPage.login("standard_user", "incorrectPassword");
-
-        assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Username and password do not match any user in this service", "Сообщение об ошибке не соответствует");
-    }
-
-    @Test
-    public void checkEmptyPasswordAndLogin() {
-        loginPage.open();
-        loginPage.login("", "");
-
-        assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Username is required", "Сообщение об ошибке не соответствует");
-    }
-
-    @Test
-    public void checkIncorrectLoginWithUpperCase() {
-        loginPage.open();
-        loginPage.login("Standard_user", "secret_sauce");
-
-        assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Username and password do not match any user in this service", "Сообщение об ошибке не соответствует");
-    }
-
-    @Test
-    public void checkLoginWithBlockedUser() {
-        loginPage.open();
-        loginPage.login("locked_out_user", "secret_sauce");
-
-        assertTrue(loginPage.isErrorDisplayed(), "Сообщение об ошибке не отображается");
-        assertEquals(loginPage.getErrorText(), "Epic sadface: Sorry, this user has been locked out.", "Сообщение об ошибке не соответствует");
+        assertEquals(loginPage.getErrorText(), errorMessage, "Сообщение об ошибке не соответствует");
     }
 }
