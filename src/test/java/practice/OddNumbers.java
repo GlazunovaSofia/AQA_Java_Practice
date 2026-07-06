@@ -10,7 +10,7 @@ public class OddNumbers {
             if(i%2 == 0){
                 continue;
             }
-            else System.out.println(i);
+            System.out.println(i);
         }
     }
 }

@@ -29,7 +29,7 @@ public class Lottery {
     }
 
     public static boolean isWin(String realName, String winName) {
-        return realName.equals(winName);
+        return realName.equalsIgnoreCase(winName);
     }
 
     public static String result(boolean isWin) {

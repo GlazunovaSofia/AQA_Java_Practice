@@ -14,15 +14,11 @@ public class Employees {
         this.role = role;
     }
 
-    public static String response(Employees male, Employees female) {
-        return "Вчера наша компания пополнилась новыми сотрудниками. " + male.name + " нанят на"
-                + " должность " + male.role + ", а " + female.name + " нанята в должности: " + female.role + ".";
-    }
-
     public static void main(String[] args) {
         Employees male = new Employees("Александр", "директор по маркетингу");
         Employees female = new Employees("Наталья", "заместитель директора по маркетингу");
-        String response = response(male, female);
+        String response = "Вчера наша компания пополнилась новыми сотрудниками. " + male.name + " нанят на"
+                + " должность " + male.role + ", а " + female.name + " нанята в должности: " + female.role + ".";
 
         System.out.println(response);
     }
