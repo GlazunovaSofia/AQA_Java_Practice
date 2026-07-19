@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,10 +17,12 @@ public class CheckoutOverviewPage extends BasePage {
         super(driver);
     }
 
+    @Step("Клик на кнопке Finish")
     public void clickOnFinishButton() {
         driver.findElement(finishButton).click();
     }
 
+    @Step("Получение списка товаров в заказе")
     public ArrayList<String> getProductsNamesInOrder() {
         List<WebElement> allProducts = driver.findElements(goodsTitle);
 
@@ -31,7 +34,8 @@ public class CheckoutOverviewPage extends BasePage {
         return names;
     }
 
-    public String getRealCostInOrder() {
+    @Step("Вычисление стоимости товаров в заказе")
+    public double getRealCostInOrder() {
         List<WebElement> allPrices = driver.findElements(goodsCost);
 
         double cost = 0.00;
@@ -40,9 +44,10 @@ public class CheckoutOverviewPage extends BasePage {
             String textPrice = price.getText().replace("$", "");
             cost += Double.parseDouble(textPrice);
         }
-        return String.valueOf(cost);
+        return cost;
     }
 
+    @Step("Получение строки со стоимостью товаров в заказе (только значение стоимости в строке)")
     public String getCoastInOrder(){
         return driver.findElement(orderPrice).getText().replace("Item total: $", "");
     }

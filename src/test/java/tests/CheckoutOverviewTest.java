@@ -59,7 +59,8 @@ public class CheckoutOverviewTest extends BaseTest{
         productPage.navigationalPanel.switchToBasket();
         basketPage.clickOnCheckoutButton();
         checkoutInformationPage.fillOrderInfo(new OrderUser("Sofia", "Glazunova", "343434"));
+        String realCostInOrder = String.valueOf(checkoutOverviewPage.getRealCostInOrder());
 
-        assertTrue(checkoutOverviewPage.getRealCostInOrder().equals(checkoutOverviewPage.getCoastInOrder()));
+        assertTrue(realCostInOrder.equals(checkoutOverviewPage.getCoastInOrder()));
     }
 }

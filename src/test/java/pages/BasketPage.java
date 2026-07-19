@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,6 +17,7 @@ public class BasketPage extends BasePage {
         super(driver);
     }
 
+    @Step("Получение списка продуктов в корзине")
     public ArrayList<String> getProductsNames() {
         List<WebElement> allProducts = driver.findElements(goodsTitle);
 
@@ -27,14 +29,17 @@ public class BasketPage extends BasePage {
         return names;
     }
 
+    @Step("Получение заголовка страницы")
     public String getTitle() {
         return driver.findElement(pageTitle).getText();
     }
 
+    @Step("Клик по кнопке Checkout")
     public void clickOnCheckoutButton() {
         driver.findElement(checkoutButton).click();
     }
 
+    @Step("Удаление товара из корзины")
     public void removeGoodsFromBasket(String goodsName) {
         By removeFromBasket = By.xpath(REMOVE_FROM_BASKET.formatted(goodsName));
         driver.findElement(removeFromBasket).click();
